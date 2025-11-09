@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images: {
-	  remotePatterns: [
-	      { protocol: 'https', hostname: 'ac.goit.global' }
-	    ]
+	output: 'export',
+	basePath: '/08-zustand',
+	images: {
+		remotePatterns: [
+			{ protocol: 'https', hostname: 'ac.goit.global' }
+		]
 	}
 };
 
