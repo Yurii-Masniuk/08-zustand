@@ -5,39 +5,41 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createNote } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useNoteStore } from '@/lib/store/noteStore';
+import { CreateNoteData, useNoteStore } from '@/lib/store/noteStore';
+import { NoteTag } from '@/types/note';
 
+interface NoteFormProps {
+  draft: CreateNoteData;
+}
 
-export default function NoteForm(/*{ onClose }: NoteFormProps*/) {
+export default function NoteForm({ draft }: NoteFormProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { setDraft, clearDraft } = useNoteStore();
 
-  const { draft, setDraft, clearDraft } = useNoteStore();
-  const [formData, setFormData] = useState(draft);
+  const [formData, setFormData] = useState<CreateNoteData>(draft);
+
+  useEffect(() => {
+    setDraft(formData);
+  }, [formData, setDraft]);
 
   const mutation = useMutation({
     mutationFn: createNote,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
-      alert('Post created!');
-      // onClose();
+      alert('Note created!');
       clearDraft();
       router.push('/notes/filter/all');
     },
   });
-    
-  useEffect(() => {
-    setDraft(formData);
-  }, [formData, setDraft])
 
-    
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value as NoteTag | string }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {

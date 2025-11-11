@@ -3,7 +3,6 @@ import axios from "axios";
 import type { Note, NoteTag } from "../types/note";
 
 const BASE_URL = "https://notehub-public.goit.study/api";
-// const TOKEN = import.meta.env.VITE_NOTEHUB_TOKEN;
 const TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 
 const api = axios.create({

@@ -4,7 +4,7 @@ export interface Note {
     id: string;
     title: string;
     content: string;
-    createdAt: string; //"2022-01-01T00:00:00Z",
+    createdAt: string;
     updatedAt: string;
     tag: NoteTag;
 }
